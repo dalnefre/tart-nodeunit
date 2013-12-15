@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Tart nodeunit",
   "scripts": {
+    "revocable-example": "node examples/revocable/runner.js",
     "test": "node scripts/test.js"
   },
   "main": "index.js",
