@@ -1,0 +1,30 @@
+{
+  "name": "tart-nodeunit",
+  "version": "0.1.0",
+  "description": "Tart nodeunit",
+  "scripts": {
+    "test": "node scripts/test.js"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "nodeunit": "0.8.1"
+  },
+  "dependencies": {
+    "tart-tracing": "0.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dalnefre/tart-nodeunit.git"
+  },
+  "keywords": [
+    "tart",
+    "nodeunit",
+    "configuration",
+    "actor"
+  ],
+  "contributors": [
+    "Dale Schumacher <dale.schumacher@gmail.com>",
+    "Tristan Slominski <tristan.slominski@gmail.com>"
+  ],
+  "license": "MIT"
+}
