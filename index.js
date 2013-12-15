@@ -37,8 +37,8 @@ var tart = require('tart-tracing');
   * Return: _Object_ The testing control object.
     * `sponsor`: _Function_ `function (behavior) {}` A capability to create
         new actors.
-    * `dispatch`: _Function_ `function (\[count\]) {}` Function to call to
-        dispatch events.  Will call `test.done()` is there are no more events.
+    * `dispatch`: _Function_ `function ([count]) {}` Function to call to
+        dispatch events.  Returns `true` when there are no more events.
     * `tracing`: _Object_ Tracing control object.
 */
 module.exports.testing = function testing(test) {
@@ -59,7 +59,6 @@ module.exports.testing = function testing(test) {
             var effect = tracing.dispatch();
 //            console.log(effect);
             if (effect === false) {
-                test.done();
                 return true;
             }
         }

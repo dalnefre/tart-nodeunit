@@ -54,7 +54,9 @@ test["dispatch delivers all messages and calls test.done()"] = function (test) {
     var actor = testing.sponsor(first);
     actor('first');
     
-    testing.dispatch();
+    if (testing.dispatch()) {
+        test.done();
+    }
 };
 
 test["sponsor creates an actor"] = function (test) {
@@ -66,10 +68,8 @@ test["sponsor creates an actor"] = function (test) {
     });
     actor(true);  // send
 
-    var done = testing.dispatch();
-    if (done !== true) {
-        test.done();
-    }
+    testing.dispatch();
+    test.done();
 };
 
 test["dispatch delivers limited number of events"] = function (test) {
@@ -108,5 +108,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
     actor('bar');  // send
     actor('baz');  // send
 
-    testing.dispatch();
+    if (testing.dispatch()) {
+        test.done();
+    }
 };

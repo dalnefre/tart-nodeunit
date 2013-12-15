@@ -65,5 +65,7 @@ test['proxy() should return a revocable proxy and a revoke capability'] = functi
 
     proxy('hello');
 
-    testing.dispatch();
+    if (testing.dispatch()) {
+        test.done();
+    }
 };

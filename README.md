@@ -49,7 +49,9 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
     actor('bar');  // send
     actor('baz');  // send
 
-    testing.dispatch();
+    if (testing.dispatch()) {
+        test.done();
+    }
 };
 ```
 
@@ -74,7 +76,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
     * `sponsor`: _Function_ `function (behavior) {}` A capability to create
         new actors.
     * `dispatch`: _Function_ `function ([count]) {}` Function to call to
-        dispatch events.  Will call `test.done()` when there are no more events.
+        dispatch events.  Returns `true` when there are no more events.
     * `tracing`: _Object_ Tracing control object.
 
 Returns the testing control object.
@@ -98,10 +100,8 @@ test["sponsor creates an actor"] = function (test) {
     });
     actor(true);  // send
 
-    var done = testing.dispatch();
-    if (done !== true) {
-        test.done();
-    }
+    testing.dispatch();
+    test.done();
 };
 ```
 
@@ -112,7 +112,8 @@ test["sponsor creates an actor"] = function (test) {
   * Return: _Boolean_. `true` if event queue is exhausted, otherwise `false`.
 
 Dispatch events.
-If event queue is exhausted, call `test.done()` and return `true`.
+If `count` is specified, dispatch at most `count` events.
+When the event queue is exhausted, return `true`.
 Otherwise return `false`.
 
 ```javascript
