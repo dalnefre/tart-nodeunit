@@ -64,7 +64,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
 **Public API**
 
   * [tart.testing(test)](#tarttestingtest)
-  * [tracing.sponsor(behavior)](#testingsponsorbehavior)
+  * [testing.sponsor(behavior)](#testingsponsorbehavior)
   * [testing.dispatch(\[count\])](#testingdispatchcount)
 
 ### tart.testing(test)
@@ -79,7 +79,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
 
 Returns the testing control object.
 
-### tracing.sponsor(behavior)
+### testing.sponsor(behavior)
 
   * `behavior`: _Function_ `function (message) {}` Actor behavior to invoke every time an actor receives a message.
   * Return: _Function_ `function (message) {}` Actor reference in form of a capability that can be invoked to send the actor a message.
@@ -105,7 +105,7 @@ test["sponsor creates an actor"] = function (test) {
 };
 ```
 
-### tracing.dispatch(\[count\])
+### testing.dispatch(\[count\])
 
   * `count`: _Number_ _(Default: undefined)_ Maximum number of events to dispatch,
     or unlimited if `undefined`.
