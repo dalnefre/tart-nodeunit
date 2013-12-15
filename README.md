@@ -115,6 +115,8 @@ Dispatch events.
 If `count` is specified, dispatch at most `count` events.
 When the event queue is exhausted, return `true`.
 Otherwise return `false`.
+If an actor behavior throws an exception,
+the same exception is thrown out of `testing.dispatch()`.
 
 ```javascript
 var adapter = require('../index.js');
