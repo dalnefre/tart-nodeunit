@@ -59,10 +59,13 @@ module.exports.testing = function testing(test) {
             var effect = tracing.dispatch();
 //            console.log(effect);
             if (effect === false) {
-                return true;
+                return true;  // event queue exhausted
+            }
+            if (effect.exception) {
+                throw effect.exception;  // propagate exception out to test harness
             }
         }
-        return false;
+        return false;  // limit reached, events may remain
     }
 
     return {
