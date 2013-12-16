@@ -37,7 +37,7 @@ var tart = require('tart-tracing');
   * Return: _Object_ The testing control object.
     * `sponsor`: _Function_ `function (behavior) {}` A capability to create
         new actors.
-    * `dispatch`: _Function_ `function ([count]) {}` Function to call to
+    * `dispatch`: _Function_ `function ([options]) {}` Function to call to
         dispatch events.  Returns `true` when there are no more events.
     * `tracing`: _Object_ Tracing control object.
 */
@@ -54,15 +54,18 @@ module.exports.testing = function testing(test) {
     });
 */
 
-    var dispatch = function dispatch(count) {
-        while ((count === undefined) || (--count >= 0)) {
+    var dispatch = function dispatch(options) {
+        options = options || {
+            fail: function fail(exception) { throw exception; }
+        };
+        while ((options.count === undefined) || (--options.count >= 0)) {
             var effect = tracing.dispatch();
 //            console.log(effect);
             if (effect === false) {
                 return true;  // event queue exhausted
             }
             if (effect.exception) {
-                throw effect.exception;  // propagate exception out to test harness
+                options.fail(effect.exception);  // report exception
             }
         }
         return false;  // limit reached, events may remain

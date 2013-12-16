@@ -29,7 +29,7 @@ var adapter = require('../index.js');
 var test = module.exports = {};
 
 test["example from tart-tracing exercises all actor primitives"] = function (test) {
-    test.expect(3);
+    test.expect(4);
     var testing = adapter.testing(test);
 
     var oneTimeBeh = function oneTimeBeh(message) {
@@ -49,9 +49,8 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
     actor('bar');  // send
     actor('baz');  // send
 
-    if (testing.dispatch()) {
-        test.done();
-    }
+    test.ok(testing.dispatch());
+    test.done();
 };
 ```
 
@@ -67,7 +66,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
 
   * [tart.testing(test)](#tarttestingtest)
   * [testing.sponsor(behavior)](#testingsponsorbehavior)
-  * [testing.dispatch(\[count\])](#testingdispatchcount)
+  * [testing.dispatch(\[options\])](#testingdispatchoptions)
 
 ### tart.testing(test)
 
@@ -75,7 +74,7 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
   * Return: _Object_ The testing control object.
     * `sponsor`: _Function_ `function (behavior) {}` A capability to create
         new actors.
-    * `dispatch`: _Function_ `function ([count]) {}` Function to call to
+    * `dispatch`: _Function_ `function ([options]) {}` Function to call to
         dispatch events.  Returns `true` when there are no more events.
     * `tracing`: _Object_ Tracing control object.
 
@@ -92,7 +91,7 @@ Creates a new (traceable) actor and returns the actor reference in form of a cap
 var adapter = require('../index.js');
 var test = module.exports = {};
 test["sponsor creates an actor"] = function (test) {
-    test.expect(1);
+    test.expect(2);
     var testing = adapter.testing(test);
 
     var actor = testing.sponsor(function (message) {  // create
@@ -100,23 +99,27 @@ test["sponsor creates an actor"] = function (test) {
     });
     actor(true);  // send
 
-    testing.dispatch();
+    test.ok(testing.dispatch());
     test.done();
 };
 ```
 
-### testing.dispatch(\[count\])
+### testing.dispatch(\[options\])
 
-  * `count`: _Number_ _(Default: undefined)_ Maximum number of events to dispatch,
-    or unlimited if `undefined`.
+  * `options`: _Object_ _(Default: { fail: function(exception) { throw exception; } })_ Optional overrides.
+    * `fail`: _Function_ `function (exception){}` Function called to report exceptions from actor behavior _(Example: `function (exception){ /* ignore exceptions */ }`)_.
+    * `count`: _Number_ _(Default: undefined)_ Maximum number of events to dispatch,
+      or unlimited if `undefined`.
   * Return: _Boolean_. `true` if event queue is exhausted, otherwise `false`.
 
 Dispatch events.
-If `count` is specified, dispatch at most `count` events.
+If `options.count` is specified, dispatch at most `options.count` events.
 When the event queue is exhausted, return `true`.
 Otherwise return `false`.
 If an actor behavior throws an exception,
-the same exception is thrown out of `testing.dispatch()`.
+`options.fail()` is called to handle it.
+The default implementation of `options.fail()`
+throws the exception out of `testing.dispatch()`.
 
 ```javascript
 var adapter = require('../index.js');
@@ -131,7 +134,7 @@ test["dispatch delivers limited number of events"] = function (test) {
     });
     actor(1);  // send
 
-    var done = testing.dispatch(3);
+    var done = testing.dispatch({ count: 3 });
     test.strictEqual(done, false);
     test.done();
 };

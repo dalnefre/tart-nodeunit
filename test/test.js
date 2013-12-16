@@ -34,8 +34,8 @@ var adapter = require('../index.js');
 
 var test = module.exports = {};
 
-test["dispatch delivers all messages and calls test.done()"] = function (test) {
-    test.expect(2);
+test["dispatch delivers all messages and returns `true`"] = function (test) {
+    test.expect(3);
     var testing = adapter.testing(test);
 
     var first = function first(message) {
@@ -54,13 +54,12 @@ test["dispatch delivers all messages and calls test.done()"] = function (test) {
     var actor = testing.sponsor(first);
     actor('first');
     
-    if (testing.dispatch()) {
-        test.done();
-    }
+    test.ok(testing.dispatch());
+    test.done();
 };
 
 test["sponsor creates an actor"] = function (test) {
-    test.expect(1);
+    test.expect(2);
     var testing = adapter.testing(test);
 
     var actor = testing.sponsor(function (message) {  // create
@@ -68,7 +67,7 @@ test["sponsor creates an actor"] = function (test) {
     });
     actor(true);  // send
 
-    testing.dispatch();
+    test.ok(testing.dispatch());
     test.done();
 };
 
@@ -82,13 +81,13 @@ test["dispatch delivers limited number of events"] = function (test) {
     });
     actor(1);  // send
 
-    var done = testing.dispatch(3);
+    var done = testing.dispatch({ count: 3 });
     test.strictEqual(done, false);
     test.done();
 };
 
 test["example from tart-tracing exercises all actor primitives"] = function (test) {
-    test.expect(3);
+    test.expect(4);
     var testing = adapter.testing(test);
 
     var oneTimeBeh = function oneTimeBeh(message) {
@@ -108,7 +107,6 @@ test["example from tart-tracing exercises all actor primitives"] = function (tes
     actor('bar');  // send
     actor('baz');  // send
 
-    if (testing.dispatch()) {
-        test.done();
-    }
+    test.ok(testing.dispatch());
+    test.done();
 };
