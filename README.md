@@ -106,9 +106,9 @@ test["sponsor creates an actor"] = function (test) {
 
 ### testing.dispatch(\[options\])
 
-  * `options`: _Object_ _(Default: { fail: function(exception) { throw exception; } })_ Optional overrides.
+  * `options`: _Object_ _(Default: `{ fail: function(exception) { throw exception; } }`)_ Optional overrides.
     * `fail`: _Function_ `function (exception){}` Function called to report exceptions from actor behavior _(Example: `function (exception){ /* ignore exceptions */ }`)_.
-    * `count`: _Number_ _(Default: undefined)_ Maximum number of events to dispatch,
+    * `count`: _Number_ _(Default: `undefined`)_ Maximum number of events to dispatch,
       or unlimited if `undefined`.
   * Return: _Boolean_. `true` if event queue is exhausted, otherwise `false`.
 
