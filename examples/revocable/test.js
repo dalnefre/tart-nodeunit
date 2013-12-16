@@ -36,7 +36,7 @@ var revocable = require('./implementation.js');
 var test = module.exports = {};
 
 test['proxy() should return a revocable proxy and a revoke capability'] = function (test) {
-    test.expect(2);
+    test.expect(3);
     var testing = adapter.testing(test);
 
     var secret, proxy, revoke;
@@ -65,7 +65,7 @@ test['proxy() should return a revocable proxy and a revoke capability'] = functi
 
     proxy('hello');
 
-    if (testing.dispatch()) {
-        test.done();
-    }
+	var ignoreExceptions = function fail(exception) {};
+    test.ok(testing.dispatch({ fail: ignoreExceptions }));
+    test.done();
 };
