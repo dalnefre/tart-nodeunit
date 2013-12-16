@@ -55,9 +55,11 @@ module.exports.testing = function testing(test) {
 */
 
     var dispatch = function dispatch(options) {
-        options = options || {
-            fail: function fail(exception) { throw exception; }
+        options = options || {};
+        options.fail = options.fail || function fail(exception) {
+            throw exception;
         };
+
         while ((options.count === undefined) || (--options.count >= 0)) {
             var effect = tracing.dispatch();
 //            console.log(effect);
