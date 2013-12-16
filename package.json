@@ -1,6 +1,6 @@
 {
   "name": "tart-nodeunit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tart nodeunit",
   "scripts": {
     "revocable-example": "node examples/revocable/runner.js",
